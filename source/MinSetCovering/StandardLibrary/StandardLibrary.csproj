@@ -44,6 +44,9 @@
     <Compile Include="Collections\DoubleLinkedListNode.cs" />
     <Compile Include="Collections\PriorityQueue.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LoggingLevels.cs" />
+    <Compile Include="Logging\LogTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\MethodSignature.cs" />
     <Compile Include="Reflection\ReflectionManager.cs" />

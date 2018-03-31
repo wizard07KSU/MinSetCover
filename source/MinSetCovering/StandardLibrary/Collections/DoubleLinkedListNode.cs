@@ -10,8 +10,8 @@ namespace Cannon.Utilities.Standard.Collections
     {
         public T Data { get; private set; }
 
-        public DoubleLinkedListNode<T> Next { get; private set; }
-        public DoubleLinkedListNode<T> Prev { get; private set; }
+        public DoubleLinkedListNode<T> Next { get; protected internal set; }
+        public DoubleLinkedListNode<T> Prev { get; protected internal set; }
 
         public DoubleLinkedListNode(T data)
             : this(data, null, null) { }
@@ -31,5 +31,14 @@ namespace Cannon.Utilities.Standard.Collections
                 prev.Next = this;
             }
         }
+
+        #region Methods
+        #region Object Methods
+        public override string ToString()
+        {
+            return $"Data: {Data}";
+        }
+        #endregion
+        #endregion
     }
 }

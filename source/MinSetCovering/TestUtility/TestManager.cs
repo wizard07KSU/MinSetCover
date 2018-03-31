@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Testing
+namespace Cannon.Utilities.Testing
 {
-    internal class TestManager
+    public class TestManager
     {
         #region Properties
+        private static readonly IDictionary<string, MethodInfo> testMethods;
         #endregion
 
         #region Constructors
@@ -18,8 +19,19 @@ namespace Testing
         {
             IEnumerable<Assembly> assemblies = new Assembly[] { Assembly.GetEntryAssembly() };
             MethodSignature signature = new MethodSignature( new Type[0], typeof( bool) );
-            IDictionary<string, MethodInfo> testMethods = ReflectionManager.GetMethods( assemblies, signature );
+            testMethods = ReflectionManager.GetMethods( assemblies, signature );
 
+        }
+        #endregion
+
+        #region Methods
+        public static void RunAllTests()
+        {
+            if (testMethods.Count == 0)
+            {
+                Console.WriteLine( "No tests to run." );
+                return;
+            }
             int maxLengthOfNames = testMethods
                 .Select( kvp => kvp.Key.Length )
                 .Max();
@@ -29,15 +41,15 @@ namespace Testing
             foreach ( var testMethod in testMethods )
             {
                 Console.Write( "Executing {0}/{1} {2}: ",
-                    testCount,
                     ++counter,
+                    testCount,
                     testMethod.Key.PadRight( maxLengthOfNames ) );
                 bool? status = null;
                 try
                 {
                     status = (bool)testMethod.Value.Invoke( null, testFunctionArguments );
                 }
-                catch( Exception e)
+                catch ( Exception e )
                 {
                     ConsoleColor oldColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -48,7 +60,7 @@ namespace Testing
                 if ( status.HasValue )
                 {
                     ConsoleColor oldColor = Console.ForegroundColor;
-                    if (!status.Value)
+                    if ( !status.Value )
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                     }
@@ -56,13 +68,6 @@ namespace Testing
                     Console.ForegroundColor = oldColor;
                 }
             }
-        }
-        #endregion
-
-        #region Methods
-        internal static void RunAllTests()
-        {
-            throw new NotImplementedException();
         }
         #endregion
     }

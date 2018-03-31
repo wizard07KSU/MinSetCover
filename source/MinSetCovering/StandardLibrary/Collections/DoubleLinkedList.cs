@@ -18,7 +18,7 @@ namespace Cannon.Utilities.Standard.Collections
 
         public DoubleLinkedList( IEnumerable<T> inputSet)
         {
-            if (inputSet.Any())
+            if (!inputSet.Any())
             {
                 this.Head = null;
                 this.Count = 0;
@@ -39,6 +39,7 @@ namespace Cannon.Utilities.Standard.Collections
         }
 
         #region Methods
+        #region Add
         /// <summary>
         /// Adds a new element to the end of the double linked list.
         /// </summary>
@@ -48,6 +49,11 @@ namespace Cannon.Utilities.Standard.Collections
         public void Add(T data)
         {
             Tail = new DoubleLinkedListNode<T>(data, null, Tail);
+            if (Count == 0)
+            {
+                Head = Tail;
+            }
+            Count++;
         }
 
         /// <summary>
@@ -58,7 +64,64 @@ namespace Cannon.Utilities.Standard.Collections
         public void Insert(T data, DoubleLinkedListNode<T> element)
         {
             DoubleLinkedListNode<T> newElement = new DoubleLinkedListNode<T>(data, element, element.Prev);
+            Count++;
         }
+        #endregion
+
+        #region Remove
+        /// <summary>
+        /// Removes an element from the head of the list.
+        /// </summary>
+        /// <returns>
+        /// Returns the data from the removed head element.
+        /// </returns>
+        public T RemoveHead()
+        {
+            if (Count == 0)
+            {
+                return default( T );
+            }
+
+            DoubleLinkedListNode<T> oldHead = this.Head;
+
+            this.Head = this.Head.Next;
+            if ( this.Head != null )
+            {
+                this.Head.Prev = null;
+            }
+
+            Count--;
+
+            return oldHead.Data;
+        }
+
+        public T RemoveTail()
+        {
+            if (Count == 0)
+            {
+                return default( T );
+            }
+
+            DoubleLinkedListNode<T> oldTail = this.Tail;
+
+            this.Tail = this.Tail.Prev;
+            if (this.Tail != null)
+            {
+                this.Tail.Next = null;
+            }
+
+            Count--;
+
+            return oldTail.Data;
+        }
+        #endregion
+
+        #region Object Methods
+        public override string ToString()
+        {
+            return $"Count: {Count}";
+        }
+        #endregion
         #endregion
     }
 }
