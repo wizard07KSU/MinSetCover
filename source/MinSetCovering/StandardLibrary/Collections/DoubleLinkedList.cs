@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinSetCovering
+namespace Cannon.Utilities.Standard.Collections
 {
     public class DoubleLinkedList<T>
     {
