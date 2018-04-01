@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DoubleLinkedListTests.cs" />
+    <Compile Include="ExtensionTests.cs" />
     <Compile Include="TestStuff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -58,7 +58,7 @@ namespace Testing
 
                 Assert.Equal( "DLL Count (Initial)", list.Count, elements.Length );
 
-                for ( int i = elements.Length - 1; i > 0; i-- )
+                for ( int i = elements.Length - 1; i >= 0; i-- )
                 {
                     int current = list.RemoveTail();
                     Assert.Equal( "DLL Values", elements[ i ], current );

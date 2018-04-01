@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MinSetCoveringUtilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MinSetCovering
 {
-    class Program
+    class MinSetCover
     {
         static void Main(string[] args)
         {
@@ -54,14 +55,16 @@ namespace MinSetCovering
             }
 
             // Build data structures
+            MscPriorityQueue<int, int, ICollection<ICollection<int>>> priorityQueue =
+                new MscPriorityQueue<int, int, ICollection<ICollection<int>>>();
 
-            // Store a collection of references to covering sets.
-            //List<Dictionary<int, ICollection<ICollection<int>>>> elementToCoveringMaps = new List<Dictionary<int, ICollection<ICollection<int>>>>();
-            
             foreach (int i in set)
             {
-                Dictionary<int, ICollection<ICollection<int>>> elementToCoveringMap = new Dictionary<int, ICollection<ICollection<int>>>();
+                Dictionary<int, ICollection<ICollection<int>>> elementToCoveringMap = 
+                    new Dictionary<int, ICollection<ICollection<int>>>();
                 List<ICollection<int>> specificCoverings = new List<ICollection<int>>();
+
+                // Find all coverings which contain the current node.
                 foreach (List<int> iCovering in coverings)
                 {
                     if (iCovering.BinarySearch( i ) >= 0)
@@ -70,7 +73,10 @@ namespace MinSetCovering
                     }
                 }
 
-                elementToCoveringMaps.Add(elementToCoveringMap);
+                priorityQueue.Add(
+                    sortKey  : specificCoverings.Count,
+                    lookupKey: i,
+                    data     : specificCoverings );
             }
 
 
